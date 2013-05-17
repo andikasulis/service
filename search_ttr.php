@@ -24,17 +24,15 @@ class Search_ttr extends CI_Controller {
     {
     	$ttr = $this->input->post('kode_ttr');
     	$search['result'] = $this->m_service->search_ttr($ttr);
-    	print_r($search['result']);  
-        //print_r($ttr);
-        //if($search['result']!='')
-        //{
+    	//print_r($search);
+    	if($search['result']['ttl']!='')
+        {
             $this->load->view('layout/header');
             $this->load->view('search_ttr/v_search_ttr_result',$search); // Load View search_trr_result
             $this->load->view('layout/footer');    
-        //} else {
-          // redirect(search_ttr);
-        //}
-    	
+        } else {
+           redirect(search_ttr);
+        }
     }
 
 }
