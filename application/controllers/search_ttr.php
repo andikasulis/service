@@ -24,7 +24,7 @@ class Search_ttr extends CI_Controller {
     {
     	$ttr = $this->input->post('kode_ttr');
     	$search['result'] = $this->m_service->search_ttr($ttr);
-    	print_r($search['result']);  
+    	//print_r($search['result']);  
         //print_r($ttr);
         //if($search['result']!='')
         //{
