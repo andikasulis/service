@@ -136,7 +136,7 @@ class Service2 extends CI_Controller {
         );
 
         $this->m_service->update_service($data);
-        redirect('Service2');
+        redirect('service2');
         //print_r($data);
     }
 
@@ -145,7 +145,7 @@ class Service2 extends CI_Controller {
  
         $id = $this->uri->segment(3);
         $this->m_service->delete_service($id);
-        redirect('Service2');
+        redirect('service2');
 
     }
 
