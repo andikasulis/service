@@ -10,6 +10,10 @@
         $('#datetimepicker4').datetimepicker({
             pickTime: false
         });
+
+        $('#datetimepicker1').datetimepicker({
+            pickTime: false
+        });
     });
        
 </script>
@@ -142,6 +146,26 @@
                 <option values="SELESAI">SELESAI</option>
                 <option values="CANCEL">CANCEL</option>
             </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_estimasi_selesai">TANGGAL ESTIMASI SELESAI :</label>
+        <div class="controls">
+            <div id="datetimepicker1" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tgl_estimasi_selesai" id="tgl_estimasi_selesai" placeholder="Tanggal Estimasi Selesai" value="<?php echo $src->tgl_estimasi_selesai; ?>"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="teknisi">TEKNISI :</label>
+        <div class="controls">
+            <input type="text" class="input-xlarge" id="teknisi" name="teknisi" placeholder="Teknisi" value="<?php echo $src->teknisi; ?>">
         </div>
     </div>
 

@@ -33,6 +33,7 @@
                     </table>   
                     <p class="text-info">Terima kasih telah menggunakan web servis Golden Camera</p>
                     <p class="text-info">Apabila terjadi kesalahan data mohon konfirmasi ulang ke Golden Camera</p>
-                    <p class="text-info"><a href="<?php echo base_url()?>">Kembali ke halaman utama </a></p>    
+                </br>
+                    <a href="<?php echo base_url()?>" class="btn btn-success" type="button"><i class="icon-remove-circle" ></i> BACK </a>   
                 </div>
             <?php endforeach; ?>

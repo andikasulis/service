@@ -7,7 +7,7 @@
 					height: "auto", //Mengset Tinggi table jadi Auto menyesuaikan dengan isi table
 					width:"990",
 					mtype: "POST",
-					colNames: ['TTR','Nama User','Nama Konsumen','Merek','Model','Serial Number','Tanggal Masuk','Kode Garansi','Status Perbaikan','Kelengkapan','Actions'],
+					colNames: ['TTR','Nama User','Nama Konsumen','Merek','Model','Serial Number','Tanggal Masuk','Kode Garansi','Status Perbaikan','Tanggal Estimasi Selesai','Teknisi','Kelengkapan','Actions'],
 					colModel: [
 						{name:'ttr', key:true, index:'ttr', hidden:false,editable:false,editrules:{required:true}},
 						{name:'nama_user',index:'nama_user',align:'center', editable:true,editrules:{required:true}},
@@ -18,6 +18,8 @@
 						{name:'tanggal_masuk',index:'tanggal_masuk',editable:true,editrules:{required:true}},
                         {name:'status_barang',index:'status_barang',align:'center',editable:true,editrules:{required:true}},
 						{name:'status_perbaikan',index:'status_perbaikan',editable:true,editrules:{required:true}},
+						{name:'tgl_estimasi_selesai',index:'tgl_estimasi_selesai',editable:true,editrules:{required:true}},
+						{name:'teknisi',index:'teknisi',editable:true,editrules:{required:true}},
 						{name:'kelengkapan',index:'kelengkapan',align:'center',editable:true,editrules:{required:true}},
 						{name:'actions',index:'actions',align:'center',editable:false,editrules:{required:true}}
 					],
@@ -28,7 +30,7 @@
 					sortname: 'id',
 					viewrecords: true,
 					sortorder: "desc",
-					editurl: '<?php echo base_url() ?>index.php/welcome/crud', //URL Proses CRUD Nya
+					editurl: '', //URL Proses CRUD Nya
 					multiselect: false, 
 					caption: "Data List Service", //Caption List					
 				});

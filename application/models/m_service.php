@@ -16,7 +16,7 @@ class M_service extends CI_Model {
 		//return $this->db->get('service', $limit, $start);
 		$q = $this->db->query("SELECT ttr,nama_user, nama_konsumen, 
 									merek, model, serial_number, tanggal_masuk,
-									status_barang, status_perbaikan, kelengkapan 
+									status_barang, status_perbaikan,tgl_estimasi_selesai, teknisi, kelengkapan 
 								FROM service
 								INNER JOIN USER
 								ON service.id_user=user.id_user");

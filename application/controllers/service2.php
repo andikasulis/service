@@ -81,7 +81,8 @@ class Service2 extends CI_Controller {
 			$responce->rows[$i]['id']   = $line->ttr;
 			$responce->rows[$i]['cell'] = array($line->ttr,$line->nama_user,$line->nama_konsumen,
 												$line->merek,$line->model,$line->serial_number,$line->tanggal_masuk,
-												$line->status_barang,$line->status_perbaikan,$line->kelengkapan,$action);
+												$line->status_barang,$line->status_perbaikan,$line->tgl_estimasi_selesai,
+												$line->teknisi,$line->kelengkapan,$action);
 			$i++;
 		}
 		echo json_encode($responce);
@@ -99,6 +100,8 @@ class Service2 extends CI_Controller {
             'tanggal_masuk' => $this->input->post('tanggal_masuk'),
             'status_barang' => $this->input->post('kode_garansi'),
             'status_perbaikan' => $this->input->post('status_perbaikan'),
+            'tgl_estimasi_selesai' => $this->input->post('tgl_estimasi_selesai'),
+            'teknisi' => $this->input->post('teknisi'),
             'kelengkapan' => $this->input->post('kelengkapan')
         );
 
@@ -132,6 +135,8 @@ class Service2 extends CI_Controller {
             'tanggal_masuk' => $this->input->post('tanggal_masuk'),
             'status_barang' => $this->input->post('kode_garansi'),
             'status_perbaikan' => $this->input->post('status_perbaikan'),
+            'tgl_estimasi_selesai' => $this->input->post('tgl_estimasi_selesai'),
+            'teknisi' => $this->input->post('teknisi'),
             'kelengkapan' => $this->input->post('kelengkapan')
         );
 
