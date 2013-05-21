@@ -4,9 +4,10 @@ class Service2 extends CI_Controller {
 
 	function __construct() {
         parent::__construct();
-		$this->load->helper('url'); // Load Helper URL CI
+		$this->load->helper(array('url')); // Load Helper URL CI
 		$this->load->model('m_service'); // Load Model m_jqgrid
 		$this->is_logged_in();
+		
     }
 
     function is_logged_in() {
@@ -165,8 +166,50 @@ class Service2 extends CI_Controller {
             echo "1";
         }
 			
-		
     }
 
-    
-}
+    function report()
+    {
+		$data['user'] = $this->m_service->ambiluser();
+		//print_r($data['user']);
+		$this->load->view('layout/header');
+		$this->load->view('report/v_report',$data);
+		$this->load->view('layout/footer');
+
+    }    
+
+    function resultreport($download_pdf = '')
+    {
+    	$this->load->helper('mediatutorialpdf');
+    	$user=$this->input->post('user');
+    	$awal=$this->input->post('tgl_awal');
+    	$akhir=$this->input->post('tgl_akhir');
+
+    	$sqluser = "AND user.nama_user='$user'";
+    	$sqltanggal = "where service.tanggal_masuk between '$awal' and '$akhir'";
+
+    	if($user!="ALL")
+    	{	
+    		$data['result'] = $this->m_service->resultreport($sqltanggal,$sqluser)->result();
+    	}elseif ($user=="ALL") {
+    		$sqluser='';
+    		$data['result'] = $this->m_service->resultreport($sqltanggal,$sqluser)->result();
+    	}
+
+		//$this->load->view('layout/header');
+		date_default_timezone_set('Asia/Jakarta');
+        $date = strftime( "%d/%B/%Y", time());
+		$pdf_filename = 'data_service_'.$date.'.pdf';
+        //$data['link_download'] = ($download_pdf == TRUE)?'':anchor(base_url().'index.php/service2/resultreport/true/', 'Download Pdf');
+		
+		$isi = $this->load->view('report/v_report_result',$data, TRUE);
+		$footer = $this->load->view('layout/footer','',TRUE);
+
+		$output = $isi.$footer;
+        //
+        if($download_pdf == TRUE)
+            generate_pdf($output, $pdf_filename);
+        else
+            echo $output;    	
+    }
+}	

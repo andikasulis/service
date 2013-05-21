@@ -62,7 +62,7 @@
  
 </script>
 
-<form class="form-horizontal" action="<?php echo base_url(); ?>index.php/service2/insert" method="POST">
+<form  class="form-horizontal"  action="<?php echo base_url(); ?>index.php/service2/insert" method="POST" >
     <div class="control-group" id="id_user">
         <label class="control-label" for="id_user">ID User :</label>
         <div class="controls">

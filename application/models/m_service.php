@@ -18,7 +18,7 @@ class M_service extends CI_Model {
 									merek, model, serial_number, tanggal_masuk,
 									status_barang, status_perbaikan,tgl_estimasi_selesai, teknisi, kelengkapan 
 								FROM service
-								INNER JOIN USER
+								INNER JOIN user
 								ON service.id_user=user.id_user");
 		return $q;
 
@@ -76,5 +76,25 @@ class M_service extends CI_Model {
 								FROM service where ttr='$ttr' ");
          
         return $q->result();
+    }
+
+    function ambiluser()
+    {
+    	$sql ="select * from user";
+    	$query = $this->db->query($sql);
+    	$i=0;
+    	
+    	return $query->result_array();
+    }
+
+    function resultreport($sqltanggal,$sqluser)
+    {
+    	$q = $this->db->query("SELECT ttr,nama_user, nama_konsumen, 
+									merek, model, serial_number, tanggal_masuk,
+									status_barang, status_perbaikan,tgl_estimasi_selesai, teknisi, kelengkapan 
+								FROM service
+								INNER JOIN user
+								ON service.id_user=user.id_user $sqltanggal $sqluser");
+		return $q;
     }
 }
