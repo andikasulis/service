@@ -44,7 +44,7 @@
                 <div class="result">
                     <h1 algin="center">Golden Service</h1>
                     <h2 class="form-signin-heading">Hasil Report</h2></br>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" border="0">
                         <tr class="success">
                             <td>Kode Tanda Terima Servis (TTR)</td>
                             <td>Nama User</td>
@@ -83,5 +83,5 @@
                     ?>  
                     <p class="text-info">Digenerate pada  <?php echo $date ?></p>
                 </br>
-                    <a href="<?php echo base_url()?>index.php/service2/resultreport/true/" class="btn btn-success" type="button"><i class="icon-remove-circle" ></i> Export .PDF </a>   
+                    <a href="javascript:window.print()" class="btn btn-success" type="button"><i class="icon-remove-circle" ></i> Print </a>   
                 </div>
