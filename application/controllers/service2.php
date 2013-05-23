@@ -39,8 +39,14 @@ class Service2 extends CI_Controller {
 		//$nextNoTransaksi = $today.sprintf('%04s', $nextNoUrut);
 		//$data['no_transaksi'] = $nextNoTransaksi;
 		$this->load->view('layout/header');
-		$this->load->view('service/v_input_service');
-		$this->load->view('service/v_service2'); // Load View jqgrid
+		$level = $this->session->userdata('level');
+        
+        if(!isset($level) || $level == 1)
+        {            
+            $this->load->view('service/v_input_service');
+        }
+		
+        $this->load->view('service/v_service2'); // Load View jqgrid
 		$this->load->view('layout/footer');
 	}
 	
@@ -78,7 +84,7 @@ class Service2 extends CI_Controller {
 		$responce->records = $count;
 		$i=0;
 		foreach($data1 as $line){
-			$action = "<a href=\"service2/ubah/$line->ttr\">Ubah</a> || <a href=\"service2/delete/$line->ttr\"  onclick=\"return confirm('Apakah sudah benar benar yakin untuk menghapus data ???')\">Hapus</a>";
+			$action = "<a target=\"_blank\" href=\"service2/blanko/$line->ttr\">Cetak</a> || <a href=\"service2/ubah/$line->ttr\">Ubah</a> || <a href=\"service2/delete/$line->ttr\"  onclick=\"return confirm('Apakah sudah benar benar yakin untuk menghapus data ???')\">Hapus</a>";
 			$responce->rows[$i]['id']   = $line->ttr;
 			$responce->rows[$i]['cell'] = array($line->ttr,$line->nama_user,$line->nama_konsumen,
 												$line->merek,$line->model,$line->serial_number,$line->tanggal_masuk,
@@ -211,5 +217,16 @@ class Service2 extends CI_Controller {
             generate_pdf($output, $pdf_filename);
         else
             echo $output;    	
+    }
+
+    function blanko()
+    {
+        $id = $this->uri->segment(3);
+        $data['service'] = $this->m_service->get_by_id($id);
+        $data['result'] = $this->m_service->get_all();
+        //print_r($id);
+        //$this->load->view('layout/header');
+        $this->load->view('service/v_blanko', $data);
+        //$this->load->view('layout/footer');
     }
 }	

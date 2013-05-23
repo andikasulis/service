@@ -18,11 +18,13 @@ class Login extends CI_Controller {
 	   if($query){ // jika data user benar
 	   		foreach ($query as $data1):
 	   			$id_user = $data1->id_user;
+	   			$level = $data1->level;
 	   		endforeach; 
 	   		$data = array(
 	    		'username' => $this->input->post('username'),
 	    		'is_logged_in' => true,
-	    		'id_user' => $id_user
+	    		'id_user' => $id_user,
+	    		'level' => $level
 	   		);
 	   		$this->session->set_userdata($data);
 	   		redirect('service2');

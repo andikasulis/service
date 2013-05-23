@@ -6,126 +6,108 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('bootstrap/css/bootstrap-datetimepicker.min.css'); ?>"/>
 <script type="text/javascript" src="<?php echo base_url('bootstrap/js/bootstrap-datetimepicker.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
 <script type="text/javascript">
     
-    $(function() {
-        $('#datetimepicker4').datetimepicker({
-            pickTime: false
-        });
-    });
     $(document).ready(function(){
-            $("#id_user").hide();
-            $("#status_barang").change(function(){
-                if ($(this).val() === "GARANSI"){
-                    $("#kode_garansi1").val('');
-                    $("#kode_garansi").show();
-                }else if ($(this).val() === "NON GARANSI"){
-                    $("#kode_garansi1").val('NON GARANSI');
-                    $("#kode_garansi").hide();
-                }    
+            $("#frm-usr").validate({
+                rules: {
+                    pass2: {
+                        equalTo: "#pass1"
+                    }
+                },
+                messages: {
+                    pass2: {
+                        equalTo: "Password tidak sama"
+                    }
+                }
             });
-        });
+
+        $("#user_name").change(function()
+        {
+            var username = $("#user_name").val();
+            var hasil;
+            $("#stts").html('Sedang mengcek User Name...');
+            $.ajax({
+                type: "POST",
+                url: "<?=base_url()?>index.php/user/cek_username",
+                data: "username="+ username,
+                success: function(data){
+                    $("#stts").ajaxComplete(function(event, request){
+                        //document.write(data);
+                        if(data==1)
+                        {
+                            $("#stts").html('<font color="blue"><b>Username Tersedia</b></font>');
+                        }
+                        else 
+                        {
+                            $("#stts").html('<font color="red"><b>Username Tidak Tersedia</b></font>');
+                        }
+                    });
+               }
+
+              });
+            
+          });
+    });
 
     
         
  
 </script>
 
-<form class="form-horizontal" action="<?php echo base_url(); ?>index.php/service2/insert" method="POST">
-    <div class="control-group" id="id_user">
-        <label class="control-label" for="id_user">ID User :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="id_user" name="id_user"  value="<?php echo $this->session->userdata('id_user') ?>">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="tgl_masuk">TANGGAL MASUK :</label>
-        <div class="controls">
-            <div id="datetimepicker4" class="input-append">
-                <input data-format="yyyy-MM-dd" type="text" name="tanggal_masuk" id="tanggal_masuk" placeholder="Tanggal Masuk"></input>
-                <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                    </i>
-                </span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="ttl">NOMOR TERIMA REPARASI (TTR) :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="ttr" name="ttr" placeholder="NOMOR TERIMA REPARASI">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="nama_pelanggan">NAMA KONSUMEN :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="merek">MEREK :</label>
-        <div class="controls">
-            <select name="merek" size="1" class="input-xlarge" id="merek">
-                <option values="SONY">SONY</option>
-                <option values="SAMSUNG">SAMSUNG</option>
-                <option values="NIKON">NIKON</option>
-                <option values="CONON">CANON</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="model">MODEL :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="model" name="model" placeholder="Model">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="serial_number">SERIAL NUMBER :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="serial_number" name="serial_number" placeholder="Serial Number">
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="status_barang">STATUS BARANG :</label>
-        <div class="controls">
-            <select name="status_barang" size="1" class="input-xlarge" id="status_barang">
-                <option values="GARANSI">GARANSI</option>
-                <option values="NON GARANSI">NON GARANSI</option>
-            </select>
-        </div>
-    </div>
-
-     <div class="control-group" id="kode_garansi">
-        <label class="control-label" for="kode_garansi" >KODE GARANSI :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="kode_garansi1" name="kode_garansi" placeholder="Kode Garansi">
-        </div>
-    </div>
+<form class="form-horizontal" action="<?php echo base_url(); ?>index.php/user/insert" method="POST" id="frm-usr">
     
-     <div class="control-group">
-        <label class="control-label" for="status_perbaikan">STATUS PERBAIKAN :</label>
+    <div class="control-group">
+        <label class="control-label" for="ttl">USER NAME :</label>
         <div class="controls">
-            <select name="status_perbaikan" size="1" class="input-xlarge" id="status_perbaikan">
-                <option values="BARU DITERIMA">BARU DITERIMA</option>
-                <option values="DALAM PENGECEKAN">DALAM PENGECEKAN</option>
-                <option values="TUNGGU ESTIMASI">TUNGGU ESTIMASI</option>
-                <option values="SELESAI">SELESAI</option>
-                <option values="CANCEL">CANCEL</option>
+            <input type="text" class="input-xlarge" id="user_name" name="user_name" placeholder="USER NAME" required>
+            <span id="stts"></span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="namauser">NAMA USER :</label>
+        <div class="controls">
+            <input type="text" class="input-xlarge" id="namauser" name="namauser" placeholder="NAMA USER" required>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="pass1">PASSWORD :</label>
+        <div class="controls">
+            <input type="password" class="input-xlarge" id="pass1" name="pass1" placeholder="PASSWORD" required>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="pass2">COMFIRM PASSWORD :</label>
+        <div class="controls">
+            <input type="password" class="input-xlarge" id="pass2" name="pass2" placeholder="COMFIRM PASSWORD" required>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="level">LEVEL :</label>
+        <div class="controls">
+            <select name="level" size="1" class="input-xlarge" id="level">
+                <option values="1">ADMIN</option>
+                <option values="2">USER</option>
             </select>
         </div>
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="kelengkapan">KELENGKAPAN :</label>
+        <label class="control-label" for="alamat">ALAMAT :</label>
         <div class="controls">
-            <textarea name="kelengkapan" id="kelengkapan" rows=5 cols=40 class="input-xlarge" placeholder="Kelengkapan" ></textarea>
+            <textarea name="alamat" id="alamat" rows=5 cols=40 class="input-xlarge" placeholder="ALAMAT" ></textarea>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="model">NOMER TELEPON :</label>
+        <div class="controls">
+            <input type="text" class="input-xlarge" id="telepon" name="telepon" placeholder="NOMER TELEPON">
         </div>
     </div>
 

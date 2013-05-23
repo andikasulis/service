@@ -27,6 +27,7 @@
         <script src="<?php echo base_url() ?>js/i18n/grid.locale-en.js" type="text/javascript"></script>
         <!-- Mengincludekan Library untuk JQGrid -->
         <script src="<?php echo base_url() ?>js/jquery.jqGrid.min.js" type="text/javascript"></script>
+        
 </head>
 <body>
 <div class="navbar navbar-fixed">

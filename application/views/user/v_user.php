@@ -7,27 +7,28 @@
 					height: "auto", //Mengset Tinggi table jadi Auto menyesuaikan dengan isi table
 					width:"990",
 					mtype: "POST",
-					colNames: ['id','User Name','Nama User','Alamat User','Telepon User','action'],
+					colNames: ['ID User','User Name','Nama User','Alamat User','Telepon User','Level','action'],
 					colModel: [
-						{name:'id_service', key:true, index:'id_service', hidden:true,editable:false,editrules:{required:true}},
+						{name:'id_user', key:true, index:'id_service',align:'center', hidden:true,editable:false,editrules:{required:true}},
 						{name:'nama_user',index:'nama_user',editable:true,editrules:{required:true}},
 						{name:'telepon_user',index:'telepon_user',align:'center',editable:true,editrules:{required:true}},
 						{name:'alamat_user',index:'alamat_user',editable:true,editrules:{required:true}},
 						{name:'merek_produk',index:'merek_produk',align:'center',editable:true,editrules:{required:true}},
+                        {name:'level',index:'actions',align:'center',editable:false,editrules:{required:true}},
                         {name:'actions',index:'actions',align:'center',editable:false,editrules:{required:true}}
 					],
 					rownumbers:true,
 					rowNum: 10,
 					rowList: [10,20,30],
 					pager: '#pager2',
-					sortname: 'id',
+					sortname: 'id_user',
 					viewrecords: true,
 					sortorder: "desc",
 					editurl: '<?php echo base_url() ?>index.php/welcome/crud', //URL Proses CRUD Nya
 					multiselect: false, 
 					caption: "Data List Service", //Caption List					
 				});
-				grid.jqGrid('navGrid','#pager2',{view:true,edit:false,add:false,del:false},{},{},{},{closeOnEscape:true,closeAfterSearch:false,multipleSearch:false, multipleGroup:false, showQuery:false,drag:true,showOnLoad:false,sopt:['cn'],resize:false,caption:'Cari Record', Find:'Cari', Reset:'Batalkan Pencarian'});				
+				grid.jqGrid('navGrid','#pager2',{view:true,edit:false,add:false,del:false},{},{},{},{closeOnEscape:true,closeAfterSearch:true,multipleSearch:false, multipleGroup:false, showQuery:false,drag:true,showOnLoad:false,sopt:['cn'],resize:true,caption:'Cari Record', Find:'Cari', Reset:'Batalkan Pencarian'});				
 			});
 		</script>
 		</br>

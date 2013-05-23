@@ -32,14 +32,14 @@ class User extends CI_Controller {
 	function json() {
 		$page  = isset($_POST['page'])?$_POST['page']:1;
 		$limit = isset($_POST['rows'])?$_POST['rows']:10;
-		$sidx  = isset($_POST['sidx'])?$_POST['sidx']:'id_user';
+		$sidx  = isset($_POST['sidx'])?$_POST['sidx']:'user_name';
 		$sord  = isset($_POST['sord'])?$_POST['sord']:'desc' ;
 		
 		if(!$sidx) $sidx=1;
 		
 	
 		# Untuk Single Searchingnya #		
-		$where = ""; //if there is no search request sent by jqgrid, $where should be empty
+		$where = "user_name"; //if there is no search request sent by jqgrid, $where should be empty
 		$searchField = isset($_GET['searchField']) ? $_GET['searchField'] : false;
 		$searchString = isset($_GET['searchString']) ? $_GET['searchString'] : false;
 		if ($_POST['_search'] == 'true') {
@@ -48,14 +48,14 @@ class User extends CI_Controller {
 		# End #
 		
 	        		
-		$count = $this->m_service->count_service($where);
+		$count = $this->m_user->count_user($where);
 		
 		$count > 0 ? $total_pages = ceil($count/$limit) : $total_pages = 0;
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
 		if($start <0) $start = 0;
 		
-		$data1 = $this->m_service->get_user($where, $sidx, $sord, $limit, $start)->result();
+		$data1 = $this->m_user->get_user($where, $sidx, $sord, $limit, $start)->result();
 	
 		$responce = new StdClass;
 		$responce->page = $page;
@@ -63,11 +63,16 @@ class User extends CI_Controller {
 		$responce->records = $count;
 		$i=0;
 		foreach($data1 as $line){
-			$action = "<a href=\"service2/ubah/$line->ttr\">Ubah</a> || <a href=\"service2/delete/$line->ttr\"  onclick=\"return confirm('Apakah sudah benar benar yakin untuk menghapus data ???')\">Hapus</a>";
-			$responce->rows[$i]['id']   = $line->ttr;
-			$responce->rows[$i]['cell'] = array($line->ttr,$line->nama_user,$line->nama_konsumen,
-												$line->merek,$line->model,$line->serial_number,$line->tanggal_masuk,
-												$line->status_barang,$line->status_perbaikan,$line->kelengkapan,$action);
+			$action = "<a href=\"user/ubah/$line->id_user\">Ubah</a> || <a href=\"user/delete/$line->id_user\"  onclick=\"return confirm('Apakah sudah benar benar yakin untuk menghapus data ???')\">Hapus</a>";
+			if($line->level == "1")
+			{
+				$level = 'ADMIN';
+			}else {
+				$level = 'USER';
+			}
+			$responce->rows[$i]['id']   = $line->id_user;
+			$responce->rows[$i]['cell'] = array($line->id_user,$line->user_name,$line->nama_user,
+												$line->alamat_user,$line->telepon_user,$level,$action);
 			$i++;
 		}
 		echo json_encode($responce);
@@ -75,21 +80,25 @@ class User extends CI_Controller {
 	
 	function insert()
     {
+        if($this->input->post('level')=='ADMIN')
+       	{
+        	$level = '1';
+        }else {
+        	$level = '2';
+        }
+
         $data = array(
-        	'ttr' => $this->input->post('ttr'),
-            'id_user' => $this->input->post('id_user'),
-            'nama_konsumen' => $this->input->post('nama_konsumen'),
-            'merek' => $this->input->post('merek'),
-            'model' => $this->input->post('model'),
-            'serial_number' => $this->input->post('serial_number'),
-            'tanggal_masuk' => $this->input->post('tanggal_masuk'),
-            'status_barang' => $this->input->post('kode_garansi'),
-            'status_perbaikan' => $this->input->post('status_perbaikan'),
-            'kelengkapan' => $this->input->post('kelengkapan')
+        	'id_user' => $this->input->post('id_user'),
+            'user_name' => $this->input->post('user_name'),
+            'nama_user' => $this->input->post('namauser'),
+            'password' => $this->input->post('pass2'),
+            'level' => $level,
+            'alamat_user' => $this->input->post('alamat'),
+            'telepon_user' => $this->input->post('telepon')
         );
 
-        $this->m_service->insert_service($data);
-        redirect('service/Service2');
+        $this->m_user->insert_user($data);
+        redirect('user');
         //print_r($data);
 
     }
@@ -97,32 +106,34 @@ class User extends CI_Controller {
      function ubah()
     {
         $id = $this->uri->segment(3);
-        $data['service'] = $this->m_service->get_by_id($id);
-        $data['service2'] = $this->m_service->get_all();
+        $data['user'] = $this->m_user->get_by_id($id);
         $this->load->view('layout/header');
-        $this->load->view('service/v_update_service', $data);
+        $this->load->view('user/v_update_user', $data);
+        //print_r($data['user']);
         $this->load->view('layout/footer');
 
     }
 
     function update()
     {
-        
+     	if($this->input->post('level')=='ADMIN')
+       	{
+        	$level = '1';
+        }else {
+        	$level = '2';
+        }
+
         $data = array(
-        	'ttr' => $this->input->post('ttr'),
-            'id_user' => $this->input->post('id_user'),
-            'nama_konsumen' => $this->input->post('nama_konsumen'),
-            'merek' => $this->input->post('merek'),
-            'model' => $this->input->post('model'),
-            'serial_number' => $this->input->post('serial_number'),
-            'tanggal_masuk' => $this->input->post('tanggal_masuk'),
-            'status_barang' => $this->input->post('kode_garansi'),
-            'status_perbaikan' => $this->input->post('status_perbaikan'),
-            'kelengkapan' => $this->input->post('kelengkapan')
+        	'id_user' => $this->input->post('id_user'),
+            'user_name' => $this->input->post('user_name'),
+            'nama_user' => $this->input->post('namauser'),
+            'level' => $level,
+            'alamat_user' => $this->input->post('alamat'),
+            'telepon_user' => $this->input->post('telepon')
         );
 
-        $this->m_service->update_service($data);
-        redirect('Service2');
+        $this->m_user->update_user($data);
+        redirect('user');
         //print_r($data);
     }
 
@@ -130,9 +141,23 @@ class User extends CI_Controller {
     {
  
         $id = $this->uri->segment(3);
-        $this->m_service->delete_service($id);
-        redirect('Service2');
+        $this->m_user->delete_user($id);
+        redirect('user');
 
+    }
+
+    function cek_username()
+    {
+    	$username = $this->input->post('username');
+		$hasil = $this->m_user->cek_username($username);
+
+		if(count($hasil)==1){
+            echo '0';
+        }else{
+            echo '1';
+        }
+        //print_r(count($hasil));
+			
     }
 
     

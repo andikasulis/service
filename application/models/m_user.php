@@ -49,4 +49,10 @@ class M_user extends CI_Model {
         return $query->result();
     }
 
+    function cek_username($username)
+    {
+        $query = $this->db->query("SELECT * FROM user where user_name='$username' ");
+        return $query->result();
+    }
+
 }
