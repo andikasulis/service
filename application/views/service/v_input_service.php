@@ -6,6 +6,8 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('bootstrap/css/bootstrap-datetimepicker.min.css'); ?>"/>
 <script type="text/javascript" src="<?php echo base_url('bootstrap/js/bootstrap-datetimepicker.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo base_url('bootstrap/js/bootstrap-typeahead.js');?>"></script>
+<script src="http://code.jquery.com/ui/1.8.3/jquery-ui.js" type="text/javascript"></script>
 <script type="text/javascript">
     
     $(function() {
@@ -14,6 +16,18 @@
         });
 
         $('#datetimepicker1').datetimepicker({
+            pickTime: false
+        });
+
+        $('#datetimepicker2').datetimepicker({
+            pickTime: false
+        });
+
+        $('#datetimepicker3').datetimepicker({
+            pickTime: false
+        });
+
+        $('#datetimepicker5').datetimepicker({
             pickTime: false
         });    
     });
@@ -31,30 +45,51 @@
                 }    
             });
 
+            $(function () {
+                 $("#nama_konsumen").typeahead({
+                    minLength: 1,
+                    source: function(query, process) {
+                            $.ajax({
+                                url: "<?php echo base_url(); ?>index.php/service2/cari_konsumen",
+                                type: 'POST',
+                                data: 'nama_konsumen=' + query,
+                                dataType: 'JSON',
+                                async: true,
+                                success: function(data) {
+                                    process(data);
+                                }
+                            });
+                        }
+                    });
+                });
+                
+            
             $("#ttr").change(function()
             {
                 var ttr = $("#ttr").val();
-                //$("#stts").html('Sedang mengcek kode TTR...');
+                var hasil;
+                $("#stts").html('Sedang mengcek Kode TTR ...');
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo base_url() ?>index.php/service2/cek_ttr",
+                    url: "<?=base_url()?>index.php/service2/cek_ttr",
                     data: "ttr="+ ttr,
-                    success: function(hasil){
+                    success: function(data){
                         $("#stts").ajaxComplete(function(event, request){
-
-                            if(hasil === "yes")
+                            //document.write(data);
+                            if(data==1)
                             {
                                 $("#stts").html('<font color="blue"><b>Kode TTR Tersedia</b></font>');
                             }
-                            else  if(hasil === 'no')
+                            else 
                             {
-                                $("#stts").html('<font color="red"><b>Kode TTR tidak Tersedia</b></font>');
+                                $("#stts").html('<font color="red"><b>Kode TTR Tidak Tersedia</b></font>');
                             }
-                       });
-                    }
-                });
-                return false;
-           });
+                        });
+                   }
+
+                  });
+            
+          });
      });
 
         
@@ -69,24 +104,11 @@
             <input type="text" class="input-xlarge" id="id_user" name="id_user"  value="<?php echo $this->session->userdata('id_user') ?>">
         </div>
     </div>
-
-    <div class="control-group">
-        <label class="control-label" for="tgl_masuk">TANGGAL MASUK :</label>
-        <div class="controls">
-            <div id="datetimepicker4" class="input-append">
-                <input data-format="yyyy-MM-dd" type="text" name="tanggal_masuk" id="tanggal_masuk" placeholder="Tanggal Masuk"></input>
-                <span class="add-on">
-                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                    </i>
-                </span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="control-group">
+    
+    <div class="control-group" id="dttr">
         <label class="control-label" for="ttl">NOMOR TERIMA REPARASI (TTR) :</label>
         <div class="controls">
-            <input type="text" class="input-xlarge" id="ttr" name="ttr" placeholder="NOMOR TERIMA REPARASI">
+            <input type="text" class="input-xlarge" id="ttr" name="ttr" placeholder="NOMOR TERIMA REPARASI" required>
             <p id="stts" ></p>
         </div>
     </div>
@@ -94,7 +116,7 @@
     <div class="control-group">
         <label class="control-label" for="nama_pelanggan">NAMA KONSUMEN :</label>
         <div class="controls">
-            <input type="text" class="input-xlarge" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen">
+            <input type="text" class="input-xlarge" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen" autocomplete="off">
         </div>
     </div>
 
@@ -154,11 +176,63 @@
         </div>
     </div>
 
+<div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL MASUK :</label>
+        <div class="controls">
+            <div id="datetimepicker4" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_masuk" id="tanggal_masuk" placeholder="Tanggal Masuk"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
     <div class="control-group">
-        <label class="control-label" for="tgl_estimasi_selesai">TANGGAL ESTIMASI SELESAI :</label>
+        <label class="control-label" for="tgl_masuk">TANGGAL ESTIMASI :</label>
+        <div class="controls">
+            <div id="datetimepicker5" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_estimasi" id="tanggal_estimasi" placeholder="Tanggal Estimasi"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL SETUJU :</label>
         <div class="controls">
             <div id="datetimepicker1" class="input-append">
-                <input data-format="yyyy-MM-dd" type="text" name="tgl_estimasi_selesai" id="tgl_estimasi_selesai" placeholder="Tanggal Estimasi Selesai"></input>
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_setuju" id="tanggal_setuju" placeholder="Tanggal Setuju"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL SELESAI :</label>
+        <div class="controls">
+            <div id="datetimepicker2" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_selesai" id="tanggal_selesai" placeholder="Tanggal Selesai"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL AMBIL :</label>
+        <div class="controls">
+            <div id="datetimepicker3" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_ambil" id="tanggal_ambil" placeholder="Tanggal Ambil"></input>
                 <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                     </i>

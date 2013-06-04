@@ -6,6 +6,9 @@ class Service2 extends CI_Controller {
         parent::__construct();
 		$this->load->helper(array('url')); // Load Helper URL CI
 		$this->load->model('m_service'); // Load Model m_jqgrid
+
+        $this->load->model('m_service2'); // Load Model m_jqgrid
+
 		$this->is_logged_in();
 		
     }
@@ -44,10 +47,11 @@ class Service2 extends CI_Controller {
         if(!isset($level) || $level == 1)
         {            
             $this->load->view('service/v_input_service');
+            $this->load->view('service/v_service2'); // Load View jqgrid
         }
 		
-        $this->load->view('service/v_service2'); // Load View jqgrid
-		$this->load->view('layout/footer');
+        $this->load->view('service/v_service'); // Load View jqgrid
+        $this->load->view('layout/footer');
 	}
 	
 	function json() {
@@ -61,11 +65,11 @@ class Service2 extends CI_Controller {
 	
 		# Untuk Single Searchingnya #		
 		$where = ""; //if there is no search request sent by jqgrid, $where should be empty
-		$searchField = isset($_GET['searchField']) ? $_GET['searchField'] : false;
-		$searchString = isset($_GET['searchString']) ? $_GET['searchString'] : false;
+		$searchField = isset($_POST['searchField']) ? $_POST['searchField'] : false;
+		$searchString = isset($_POST['searchString']) ? $_POST['searchString'] : false;
 		if ($_POST['_search'] == 'true') {
-			$where = array($searchField => $searchString);
-		}
+			$where = "where $searchField like '%$searchString%'";
+        }
 		# End #
 		
 	        		
@@ -88,12 +92,58 @@ class Service2 extends CI_Controller {
 			$responce->rows[$i]['id']   = $line->ttr;
 			$responce->rows[$i]['cell'] = array($line->ttr,$line->nama_user,$line->nama_konsumen,
 												$line->merek,$line->model,$line->serial_number,$line->tanggal_masuk,
-												$line->status_barang,$line->status_perbaikan,$line->tgl_estimasi_selesai,
+                                                $line->tanggal_estimasi,$line->tanggal_setuju,$line->tanggal_selesai,
+                                                $line->tanggal_ambil,$line->status_barang,$line->status_perbaikan,
 												$line->teknisi,$line->kelengkapan,$action);
 			$i++;
 		}
 		echo json_encode($responce);
 	}
+
+    function json_service() {
+        $page  = isset($_POST['page'])?$_POST['page']:1;
+        $limit = isset($_POST['rows'])?$_POST['rows']:10;
+        $sidx  = isset($_POST['sidx'])?$_POST['sidx']:'ttr';
+        $sord  = isset($_POST['sord'])?$_POST['sord']:'desc' ;
+        
+        if(!$sidx) $sidx=1;
+        
+    
+        # Untuk Single Searchingnya #       
+        $where = ""; //if there is no search request sent by jqgrid, $where should be empty
+        $searchField = isset($_POST['searchField']) ? $_POST['searchField'] : false;
+        $searchString = isset($_POST['searchString']) ? $_POST['searchString'] : false;
+        if ($_POST['_search'] == 'true') {
+            $where = "AND $searchField like '%$searchString%'";
+        }
+        # End #
+        
+        $nama_user = $this->session->userdata('nama_user');            
+        $count = $this->m_service2->count_service($where,$nama_user);
+        
+        $count > 0 ? $total_pages = ceil($count/$limit) : $total_pages = 0;
+        if ($page > $total_pages) $page=$total_pages;
+        $start = $limit*$page - $limit;
+        if($start <0) $start = 0;
+        
+        $data1 = $this->m_service2->get_service($where, $sidx, $sord, $limit, $start,$nama_user)->result();
+    
+        $responce = new StdClass;
+        $responce->page = $page;
+        $responce->total = $total_pages;
+        $responce->records = $count;
+        $i=0;
+        foreach($data1 as $line){
+            $responce->rows[$i]['id']   = $line->ttr;
+            $responce->rows[$i]['cell'] = array($line->ttr,$line->nama_user,$line->nama_konsumen,
+                                                $line->merek,$line->model,$line->serial_number,$line->tanggal_masuk,
+                                                $line->tanggal_estimasi,$line->tanggal_setuju,$line->tanggal_selesai,
+                                                $line->tanggal_ambil,$line->status_barang,$line->status_perbaikan,
+                                                $line->teknisi,$line->kelengkapan);
+            $i++;
+        }
+        echo json_encode($responce);
+    }
 	
 	function insert()
     {
@@ -105,9 +155,12 @@ class Service2 extends CI_Controller {
             'model' => $this->input->post('model'),
             'serial_number' => $this->input->post('serial_number'),
             'tanggal_masuk' => $this->input->post('tanggal_masuk'),
+            'tanggal_estimasi' => $this->input->post('tanggal_estimasi'),
+            'tanggal_setuju' => $this->input->post('tanggal_setuju'),
+            'tanggal_selesai' => $this->input->post('tanggal_selesai'),
+            'tanggal_ambil' => $this->input->post('tanggal_ambil'),
             'status_barang' => $this->input->post('kode_garansi'),
             'status_perbaikan' => $this->input->post('status_perbaikan'),
-            'tgl_estimasi_selesai' => $this->input->post('tgl_estimasi_selesai'),
             'teknisi' => $this->input->post('teknisi'),
             'kelengkapan' => $this->input->post('kelengkapan')
         );
@@ -120,13 +173,21 @@ class Service2 extends CI_Controller {
 
      function ubah()
     {
-        $id = $this->uri->segment(3);
-        $data['service'] = $this->m_service->get_by_id($id);
-        $data['service2'] = $this->m_service->get_all();
+        
         $this->load->view('layout/header');
-        $this->load->view('service/v_update_service', $data);
-        $this->load->view('layout/footer');
-
+        $level = $this->session->userdata('level');
+        
+        if(!isset($level) || $level == 1)
+        {            
+            $id = $this->uri->segment(3);
+            $data['service'] = $this->m_service->get_by_id($id);
+            $data['service2'] = $this->m_service->get_all();
+            $this->load->view('layout/header');
+            $this->load->view('service/v_update_service', $data);
+            $this->load->view('layout/footer');
+        }
+        
+        redirect('service2');
     }
 
     function update()
@@ -140,9 +201,12 @@ class Service2 extends CI_Controller {
             'model' => $this->input->post('model'),
             'serial_number' => $this->input->post('serial_number'),
             'tanggal_masuk' => $this->input->post('tanggal_masuk'),
+            'tanggal_estimasi' => $this->input->post('tanggal_estimasi'),
+            'tanggal_setuju' => $this->input->post('tanggal_setuju'),
+            'tanggal_selesai' => $this->input->post('tanggal_selesai'),
+            'tanggal_ambil' => $this->input->post('tanggal_ambil'),
             'status_barang' => $this->input->post('kode_garansi'),
             'status_perbaikan' => $this->input->post('status_perbaikan'),
-            'tgl_estimasi_selesai' => $this->input->post('tgl_estimasi_selesai'),
             'teknisi' => $this->input->post('teknisi'),
             'kelengkapan' => $this->input->post('kelengkapan')
         );
@@ -155,23 +219,28 @@ class Service2 extends CI_Controller {
     function delete()
     {
  
-        $id = $this->uri->segment(3);
-        $this->m_service->delete_service($id);
+        if(!isset($level) || $level == 1)
+        { 
+            $id = $this->uri->segment(3);
+            $this->m_service->delete_service($id);
+            redirect('service2');
+        }
+        
         redirect('service2');
-
     }
 
     function cek_ttr()
     {
-    	$ttr = $this->input->post('ttr');
-		$hasil_ttr = $this->m_service->cek_ttr($ttr);
+        $ttr = $this->input->post('ttr');
+        $hasil = $this->m_service->cek_ttr($ttr);
 
-		if(count($hasil_ttr)!=0){
-            echo "0";
+        if(count($hasil)==1){
+            echo '0';
         }else{
-            echo "1";
+            echo '1';
         }
-			
+        //print_r(count($hasil));
+            
     }
 
     function report()
@@ -228,5 +297,15 @@ class Service2 extends CI_Controller {
         //$this->load->view('layout/header');
         $this->load->view('service/v_blanko', $data);
         //$this->load->view('layout/footer');
+    }
+
+    function cari_konsumen()
+    {
+        $nama = $this->input->post('nama_konsumen',TRUE);
+        $rows = $this->m_service->cari_konsumen($nama);
+        $json_array = array();
+        foreach ($rows as $row)
+            $json_array[]=$row->nama_user;
+        echo json_encode($json_array);
     }
 }	

@@ -20,10 +20,10 @@ b\:* {behavior:url(#default#VML);}
 <!--
  /* Font Definitions */
 @font-face
-  {font-family:"Comic Sans MS";
+  {font-family:"Times New Roman";
   panose-1:3 15 7 2 3 3 2 2 2 4;}
 @font-face
-  {font-family:Arial;
+  {font-family:Times New Roman;
   panose-1:2 11 6 4 2 2 2 2 2 4;}
 @font-face
   {font-family:"Times New Roman";
@@ -44,7 +44,7 @@ p.MsoAccentText2, li.MsoAccentText2, div.MsoAccentText2
   margin-top:0pt;
   margin-bottom:0pt;
   text-align:left;
-  font-family:"Gill Sans MT";
+  font-family:"Times New Roman";
   font-size:7.0pt;
   color:black;}
 p.MsoTitle5, li.MsoTitle5, div.MsoTitle5
@@ -53,7 +53,7 @@ p.MsoTitle5, li.MsoTitle5, div.MsoTitle5
   margin-top:0pt;
   margin-bottom:0pt;
   text-align:left;
-  font-family:"Gill Sans MT";
+  font-family:"Times New Roman";
   font-size:14.0pt;
   color:black;
   font-style:italic;}
@@ -125,8 +125,8 @@ left:152px;top:223px;width:576px;height:33px'>
   <td width=576 height=33 style='vertical-align:top'><![endif]>
   <div v:shape="_x0000_s1042" style='padding:2.85pt 2.85pt 2.85pt 2.85pt'
   class=shape>
-  <p class=MsoTitle5><span lang=en-US style='font-family:"Comic Sans MS";
-  font-weight:bold;language:en-US'>TANDA TERIMA REPARASI</span></p>
+  <p class=MsoTitle5><span lang=en-US style='font-family:"Times New Roman";
+  language:en-US'>TANDA TERIMA REPARASI</span></p>
   </div>
   <![if !vml]></td>
  </tr>
@@ -160,8 +160,8 @@ left:48px;top:272px;width:698px;height:26px'>
   <td width=698 height=26 style='vertical-align:top'><![endif]>
   <div v:shape="_x0000_s1044" style='padding:2.85pt 2.85pt 2.85pt 2.85pt'
   class=shape>
-  <p class=MsoAccentText2><span lang=en-US style='font-size:12.0pt;font-family:
-  Arial;language:en-US'>Tanggal Cetak : <?=$date?> </span></p>
+  <p class=MsoAccentText2><span lang=en-US style='font-size:10.0pt;font-family:
+  Times New Roman;language:en-US'>Tanggal Cetak : <?=$date?> </span></p>
   </div>
   <![if !vml]></td>
  </tr>
@@ -397,7 +397,7 @@ left:454px;top:608px;width:281px;height:51px'>
 
 <table cellpadding=0 cellspacing=0>
  <tr>
-  <td width=282 height=51 style='border:2.0pt solid black;vertical-align:top'><![endif]>
+  <td width=282 height=51 style='border:0pt solid black;vertical-align:top'><![endif]>
   <div v:shape="_x0000_s1095" style='padding:4.88pt 4.88pt 4.88pt 4.88pt'
   class=shape>
   <p class=MsoNormal><span lang=en-US style='language:en-US'>Garansi 1 Bulan Untuk Kerusakan yang sama, Mulai Tanggal :</span></p>
@@ -579,7 +579,7 @@ left:454px;top:608px;width:281px;height:51px'>
   <td width=147 height=31 valign=Top style='width:110.2225pt;height:23.7pt;
   padding-left:2.88pt;padding-right:2.88pt;padding-top:2.88pt;padding-bottom:
   2.88pt;border:solid black 1.0pt'>
-  <p class=MsoNormal><span lang=id style='language:id'><?=$src->tgl_estimasi_selesai?></span></p>
+  <p class=MsoNormal><span lang=id style='language:id'><?=$src->tanggal_selesai?></span></p>
   </td>
  </tr>
 </table>
@@ -615,7 +615,7 @@ left:454px;top:608px;width:281px;height:51px'>
   padding-left:2.88pt;padding-right:2.88pt;padding-top:2.88pt;padding-bottom:
   2.88pt;border:solid black 1.0pt'>
   <p class=MsoNormal style='text-align:center;text-align:center'><span
-  lang=en-US style='font-size:12.0pt;language:en-US'>Biaya Disetujui</span></p>
+  lang=en-US style='font-size:12.0pt;language:en-US'>Biaya Disetujui</span><br/><br/></p>
   </td>
  </tr>
 </table>
@@ -643,10 +643,11 @@ left:454px;top:608px;width:281px;height:51px'>
  <tr>
   <td width=278 height=84 valign=Top style='width:208.3464pt;height:62.6302pt;
   padding-left:2.88pt;padding-right:2.88pt;padding-top:2.88pt;padding-bottom:
-  2.88pt;border:solid black 1.0pt'>
+  2.88pt;border:solid black 0pt'>
   <p class=MsoNormal><span lang=en-US style='language:en-US'>Biaya Total</span></p>
-  <p class=MsoNormal><span lang=en-US style='language:en-US'>   - Biaya Reparasi     Rp . </span></p>
-  <p class=MsoNormal><span lang=en-US style='language:en-US'>   - Biaya Spare Part   Rp.</span></p>
+  <p class=MsoNormal><span lang=en-US style='language:en-US'>   - Biaya Kirim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp . </span></p>
+  <p class=MsoNormal><span lang=en-US style='language:en-US'>   - Biaya Reparasi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rp . </span></p>
+  <p class=MsoNormal><span lang=en-US style='language:en-US'>   - Biaya Spare Part&nbsp;&nbsp;&nbsp;Rp.</span></p>
   <p class=MsoNormal><span lang=en-US style='language:en-US'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________</span></p>
   <p class=MsoNormal><span lang=en-US style='language:en-US'>                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jumlah      Rp.</span></p>
   </td>
@@ -678,10 +679,6 @@ left:454px;top:608px;width:281px;height:51px'>
   padding-left:2.88pt;padding-right:2.88pt;padding-top:2.88pt;padding-bottom:
   2.88pt;border:solid black 1.0pt'>
   <p class=MsoNormal><span lang=en-US style='font-size:12.0pt;language:en-US'>Perlengkapan   :</span></p>
-  <p class=MsoNormal><span lang=en-US style='font-size:12.0pt;language:en-US'>&nbsp;</span></p>
-  <p class=MsoNormal><span lang=en-US style='font-size:12.0pt;language:en-US'> Case  (   )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lens Hood (   )   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changer  (   )   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LC (   )</span></p>
-  <p class=MsoNormal><span lang=en-US style='font-size:12.0pt;language:en-US'> Strap (   )     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(   )   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Memory   (   )   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RC (   )</span></p>
-  <p class=MsoNormal><span lang=en-US style='font-size:12.0pt;language:en-US'> Cap   (   )     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hand Grip  &nbsp;(   )    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Battrey&nbsp;&nbsp;&nbsp;&nbsp;(   )   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EP (   )</span></p>
   <p class=MsoNormal><span lang=id style='font-size:12.0pt;language:id'>&nbsp;</span></p>
   </td>
  </tr>

@@ -44,18 +44,31 @@
                         <input class="span2" type="password" placeholder="Password" name="password">
                         <button type="submit" class="btn">Sign in</button>
                 </form>
-            <?php } else { ?>
+            <?php } ?>
 
+            <?php $level = $this->session->userdata('level');
+                if(!isset($level) || $level == 1)
+                {
+                        
+                ?>
                 <ul class="nav" role="navigation">
                     <li class="dropdown">
                       <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Mater Data <b class="caret"></b></a>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#anotherAction">Master User</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/user">Master User</a></li>
                         <li role="presentation" class="divider"></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/service2">Data Service</a></li>
                       </ul>
                     </li>
+                    
+                    <li class="dropdown">
+                      <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Report <b class="caret"></b></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/service2/report">Report Service</a></li>
+                      </ul>
+                    </li>
                   </ul>
+                <?php } ?>
 
                 <ul class="nav pull-right">
                     <li id="fat-menu" class="dropdown">
@@ -64,8 +77,7 @@
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="<?php echo base_url(); ?>index.php/login/logout">Logout</a></li>
                         </ul>
                     </li>
-                </ul>
-            <?php } ?>      
+                </ul>      
         </div>
     </div><!-- /navbar-inner -->
 </div>

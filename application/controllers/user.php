@@ -24,9 +24,16 @@ class User extends CI_Controller {
 	function grid() 
 	{
 		$this->load->view('layout/header');
-		$this->load->view('user/v_input_user');
-		$this->load->view('user/v_user'); // Load View jqgrid
-		$this->load->view('layout/footer');
+		$level = $this->session->userdata('level');
+        
+        if(!isset($level) || $level == 1)
+        {            
+            $this->load->view('user/v_input_user');
+			$this->load->view('user/v_user'); // Load View jqgrid
+        	$this->load->view('layout/footer');
+        }
+		
+		redirect('service2');
 	}
 	
 	function json() {
@@ -39,9 +46,9 @@ class User extends CI_Controller {
 		
 	
 		# Untuk Single Searchingnya #		
-		$where = "user_name"; //if there is no search request sent by jqgrid, $where should be empty
-		$searchField = isset($_GET['searchField']) ? $_GET['searchField'] : false;
-		$searchString = isset($_GET['searchString']) ? $_GET['searchString'] : false;
+		$where = ""; //if there is no search request sent by jqgrid, $where should be empty
+		$searchField = isset($_POST['searchField']) ? $_POST['searchField'] : false;
+		$searchString = isset($_POST['searchString']) ? $_POST['searchString'] : false;
 		if ($_POST['_search'] == 'true') {
 			$where = array($searchField => $searchString);
 		}

@@ -14,6 +14,18 @@
         $('#datetimepicker1').datetimepicker({
             pickTime: false
         });
+
+        $('#datetimepicker2').datetimepicker({
+            pickTime: false
+        });
+
+        $('#datetimepicker3').datetimepicker({
+            pickTime: false
+        });
+
+        $('#datetimepicker5').datetimepicker({
+            pickTime: false
+        });
     });
        
 </script>
@@ -45,7 +57,6 @@
                     $("#kode_garansi1").val('NON GARANSI');
                     $("#kode_garansi").hide();
                 }   
-
         });
     
     </script>
@@ -58,6 +69,13 @@
     </div>
     
     <div class="control-group">
+        <label class="control-label" for="ttl">NOMOR TERIMA REPARASI (TTR) :</label>
+        <div class="controls">
+            <input type="text" class="input-xlarge" id="ttr" name="ttr" placeholder="NOMOR TERIMA REPARASI" value="<?php echo $src->ttr; ?>" readonly>
+        </div>
+    </div>
+
+    <div class="control-group">
         <label class="control-label" for="tanggal_masuk">TANGGAL MASUK :</label>
         <div class="controls">
             <div id="datetimepicker4" class="input-append">
@@ -68,13 +86,6 @@
                 </span>
             </div>
         </div>    
-    </div>
-
-    <div class="control-group">
-        <label class="control-label" for="ttl">NOMOR TERIMA REPARASI (TTR) :</label>
-        <div class="controls">
-            <input type="text" class="input-xlarge" id="ttr" name="ttr" placeholder="NOMOR TERIMA REPARASI" value="<?php echo $src->ttr; ?>" readonly>
-        </div>
     </div>
 
     <div class="control-group">
@@ -150,10 +161,49 @@
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="tgl_estimasi_selesai">TANGGAL ESTIMASI SELESAI :</label>
+        <label class="control-label" for="tgl_masuk">TANGGAL ESTIMASI :</label>
+        <div class="controls">
+            <div id="datetimepicker5" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_estimasi" id="tanggal_estimasi" placeholder="Tanggal Estimasi" value="<?php echo $src->tanggal_estimasi; ?>"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL SETUJU :</label>
         <div class="controls">
             <div id="datetimepicker1" class="input-append">
-                <input data-format="yyyy-MM-dd" type="text" name="tgl_estimasi_selesai" id="tgl_estimasi_selesai" placeholder="Tanggal Estimasi Selesai" value="<?php echo $src->tgl_estimasi_selesai; ?>"></input>
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_setuju" id="tanggal_setuju" placeholder="Tanggal Setuju" value="<?php echo $src->tanggal_setuju; ?>"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL SELESAI :</label>
+        <div class="controls">
+            <div id="datetimepicker2" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_selesai" id="tanggal_selesai" placeholder="Tanggal Selesai" value="<?php echo $src->tanggal_selesai; ?>"></input>
+                <span class="add-on">
+                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                    </i>
+                </span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tgl_masuk">TANGGAL AMBIL :</label>
+        <div class="controls">
+            <div id="datetimepicker3" class="input-append">
+                <input data-format="yyyy-MM-dd" type="text" name="tanggal_ambil" id="tanggal_ambil" placeholder="Tanggal Ambil" value="<?php echo $src->tanggal_ambil; ?>"></input>
                 <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                     </i>

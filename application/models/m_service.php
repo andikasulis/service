@@ -15,12 +15,13 @@ class M_service extends CI_Model {
 		//$this->db->order_by($sidx, $sord);
 		//return $this->db->get('service', $limit, $start);
 		$q = $this->db->query("SELECT ttr,nama_user, nama_konsumen, 
-									merek, model, serial_number, tanggal_masuk,
-									status_barang, status_perbaikan,tgl_estimasi_selesai, teknisi, kelengkapan 
+									merek, model, serial_number, tanggal_masuk,tanggal_estimasi,tanggal_setuju, 
+                                    tanggal_selesai,tanggal_ambil,status_barang, status_perbaikan, teknisi, kelengkapan 
 								FROM service
 								INNER JOIN user
-								ON service.id_user=user.id_user");
-		return $q;
+								ON service.id_user=user.id_user $like order by $sidx $sord LIMIT $start,$limit ");
+
+        return $q;
 
 	}
 	
@@ -72,10 +73,8 @@ class M_service extends CI_Model {
 
     function cek_ttr($ttr)
     {
-    	$q = $this->db->query("SELECT ttr 
-								FROM service where ttr='$ttr' ");
-         
-        return $q->result();
+    	$query = $this->db->query("SELECT * FROM service where ttr='$ttr' ");
+        return $query->result();
     }
 
     function ambiluser()
@@ -90,11 +89,20 @@ class M_service extends CI_Model {
     function resultreport($sqltanggal,$sqluser)
     {
     	$q = $this->db->query("SELECT ttr,nama_user, nama_konsumen, 
-									merek, model, serial_number, tanggal_masuk,
-									status_barang, status_perbaikan,tgl_estimasi_selesai, teknisi, kelengkapan 
+									merek, model, serial_number, tanggal_masuk,tanggal_estimasi,tanggal_setuju,
+									tanggal_selesai, tanggal_ambil, status_barang, status_perbaikan, teknisi, kelengkapan 
 								FROM service
 								INNER JOIN user
 								ON service.id_user=user.id_user $sqltanggal $sqluser");
 		return $q;
     }
+
+    function cari_konsumen($nama)
+    {
+        $this->db->select('nama_user');
+        $this->db->like('nama_user', $nama);
+           $query = $this->db->get('user');
+        return $query->result();
+    }
+
 }
